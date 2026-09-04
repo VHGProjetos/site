@@ -120,8 +120,8 @@
   .clients-marquee{overflow:hidden;position:relative;width:100%;-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);}
   .clients-track{display:flex;align-items:center;width:max-content;animation:clients-scroll 60s linear infinite;}
   .clients-marquee:hover .clients-track{animation-play-state:paused;}
-  .clients-track img{height:70px;width:auto;margin:0 50px;object-fit:contain;filter:grayscale(100%) brightness(1.6);opacity:0.55;transition:filter .25s ease,opacity .25s ease;}
-  .clients-track img:hover{filter:grayscale(0%) brightness(1);opacity:1;}
+  .clients-track img{height:70px;width:auto;margin:0 50px;object-fit:contain;filter:grayscale(0%) brightness(1);opacity:1;transition:filter .25s ease,opacity .25s ease;}
+  .clients-track img:hover{filter:grayscale(0%) brightness(1);opacity:1;transform:scale(1.15);}
   @keyframes clients-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @media (prefers-reduced-motion:reduce){.clients-track{animation:none;}.clients-marquee{overflow-x:auto;}}
 
