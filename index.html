@@ -114,6 +114,17 @@
   .stat .num{font-family:'Playfair Display',serif;font-size:34px;font-weight:600;color:var(--blue);}
   .stat .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-top:6px;font-family:'Jost',sans-serif;font-weight:500;}
 
+  /* CLIENTES - carrossel de logos */
+  .clients-strip{background:var(--navy-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:44px 0;position:relative;z-index:2;}
+  .clients-strip .clients-label{text-align:center;font-family:'Jost',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:28px;}
+  .clients-marquee{overflow:hidden;position:relative;width:100%;-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);}
+  .clients-track{display:flex;align-items:center;width:max-content;animation:clients-scroll 32s linear infinite;}
+  .clients-marquee:hover .clients-track{animation-play-state:paused;}
+  .clients-track img{height:36px;width:auto;margin:0 42px;object-fit:contain;filter:grayscale(100%) brightness(1.6);opacity:0.55;transition:filter .25s ease,opacity .25s ease;}
+  .clients-track img:hover{filter:grayscale(0%) brightness(1);opacity:1;}
+  @keyframes clients-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion:reduce){.clients-track{animation:none;}.clients-marquee{overflow-x:auto;}}
+
   section{position:relative;padding:120px 0;}
   .section-head{max-width:640px;margin-bottom:60px;}
   .section-head h2{font-size:clamp(28px,3.4vw,44px);}
@@ -284,6 +295,31 @@
     <div class="stat"><div class="num">120+</div><div class="label">Projetos entregues</div></div>
     <div class="stat"><div class="num">4</div><div class="label">Disciplinas integradas</div></div>
     <div class="stat"><div class="num">100%</div><div class="label">Comercial e industrial</div></div>
+  </div>
+</div>
+
+<div class="clients-strip">
+  <div class="wrap">
+    <div class="clients-label">Empresas que já atendemos</div>
+  </div>
+  <div class="clients-marquee">
+    <div class="clients-track">
+      <!-- COLE AQUI OS LINKS DAS LOGOS (copiados das issues do GitHub) -->
+      <!-- Exemplo: <img src="https://github.com/user-attachments/assets/xxxxxxxx" alt="Nome do Cliente"> -->
+      <img src="COLE_O_LINK_DA_LOGO_1_AQUI" alt="Cliente 1">
+      <img src="COLE_O_LINK_DA_LOGO_2_AQUI" alt="Cliente 2">
+      <img src="COLE_O_LINK_DA_LOGO_3_AQUI" alt="Cliente 3">
+      <img src="COLE_O_LINK_DA_LOGO_4_AQUI" alt="Cliente 4">
+      <img src="COLE_O_LINK_DA_LOGO_5_AQUI" alt="Cliente 5">
+      <img src="COLE_O_LINK_DA_LOGO_6_AQUI" alt="Cliente 6">
+      <!-- ↓ REPITA A MESMA LISTA AQUI EMBAIXO (mesma ordem) para o loop ficar contínuo -->
+      <img src="COLE_O_LINK_DA_LOGO_1_AQUI" alt="Cliente 1">
+      <img src="COLE_O_LINK_DA_LOGO_2_AQUI" alt="Cliente 2">
+      <img src="COLE_O_LINK_DA_LOGO_3_AQUI" alt="Cliente 3">
+      <img src="COLE_O_LINK_DA_LOGO_4_AQUI" alt="Cliente 4">
+      <img src="COLE_O_LINK_DA_LOGO_5_AQUI" alt="Cliente 5">
+      <img src="COLE_O_LINK_DA_LOGO_6_AQUI" alt="Cliente 6">
+    </div>
   </div>
 </div>
 
@@ -469,7 +505,7 @@
     <div class="cta-contact-block reveal">
       <div><strong>Telefone / WhatsApp</strong>(98) 99612-5670</div>
       <div><strong>E-mail</strong>diretoria@vhgprojetos.com</div>
-      <div><strong>Endereço</strong>Rua 3, nº 5, Centro Comercial Planalto, 2º andar, Planalto Anil, São Luís - MA</div>
+      <div><strong>Endereço</strong>Rua Perdizes, Edifício Console, Sala 306, Renascença, São Luís - MA</div>
     </div>
   </div>
 </section>
@@ -495,7 +531,7 @@
         <ul>
           <li>(98) 99612-5670</li>
           <li>diretoria@vhgprojetos.com</li>
-          <li>Rua 3, nº 5, Planalto Anil, São Luís - MA</li>
+          <li>Rua Perdizes, Edifício Console, Sala 306, Renascença, São Luís - MA</li>
         </ul>
       </div>
     </div>
