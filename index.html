@@ -115,12 +115,12 @@
   .stat .label{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-top:6px;font-family:'Jost',sans-serif;font-weight:500;}
 
   /* CLIENTES - carrossel de logos */
-  .clients-strip{background:var(--navy-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:44px 0;position:relative;z-index:2;}
+  .clients-strip{background:var(--navy-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:60px 0;position:relative;z-index:2;}
   .clients-strip .clients-label{text-align:center;font-family:'Jost',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:28px;}
   .clients-marquee{overflow:hidden;position:relative;width:100%;-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);}
-  .clients-track{display:flex;align-items:center;width:max-content;animation:clients-scroll 32s linear infinite;}
+  .clients-track{display:flex;align-items:center;width:max-content;animation:clients-scroll 60s linear infinite;}
   .clients-marquee:hover .clients-track{animation-play-state:paused;}
-  .clients-track img{height:36px;width:auto;margin:0 42px;object-fit:contain;filter:grayscale(100%) brightness(1.6);opacity:0.55;transition:filter .25s ease,opacity .25s ease;}
+  .clients-track img{height:60px;width:auto;margin:0 50px;object-fit:contain;filter:grayscale(100%) brightness(1.6);opacity:0.55;transition:filter .25s ease,opacity .25s ease;}
   .clients-track img:hover{filter:grayscale(0%) brightness(1);opacity:1;}
   @keyframes clients-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @media (prefers-reduced-motion:reduce){.clients-track{animation:none;}.clients-marquee{overflow-x:auto;}}
