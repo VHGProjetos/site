@@ -22,13 +22,14 @@
     --line-dark:rgba(0,17,37,0.12);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden; width:100%;}
   body{
     font-family:'Jost',sans-serif;
     background:var(--navy);
     color:var(--light);
     line-height:1.65;
     overflow-x:hidden;
+    max-width:100vw;
     font-weight:300;
   }
   h1,h2,h3,h4{
@@ -117,7 +118,7 @@
   /* CLIENTES - carrossel de logos */
   .clients-strip{background:var(--navy-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:60px 0;position:relative;z-index:2;}
   .clients-strip .clients-label{text-align:center;font-family:'Jost',sans-serif;font-weight:500;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:28px;}
-  .clients-marquee{overflow:visible;position:relative;width:100%;padding:15px 0;-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);}
+  .clients-marquee{overflow:hidden;position:relative;width:100%;padding:15px 0;-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);}
   .clients-track{display:flex;align-items:center;width:max-content;animation:clients-scroll 60s linear infinite;}
   .clients-marquee:hover .clients-track{animation-play-state:paused;}
   .clients-track img{height:70px;width:auto;margin:0 50px;object-fit:contain;filter:grayscale(0%) brightness(1);opacity:1;transition:filter .25s ease,opacity .25s ease;}
