@@ -18,6 +18,7 @@
     --blue:#0E76DD;
     --blue-dim:#0a5aa8;
     --text-dim:#9aa7b5;
+    --accent:#F5A623;
     --line:rgba(242,242,242,0.14);
     --line-dark:rgba(0,17,37,0.12);
   }
@@ -140,13 +141,27 @@
   .on-light .dim-line{color:var(--blue);}
   .on-light .dim-line span{color:var(--blue-dim);}
 
-  /* SERVICES */
+  /* SERVICES - flip cards */
   .services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
-  .service-card{background:var(--navy);padding:44px 38px;position:relative;transition:background .25s ease;}
-  .service-card:hover{background:var(--navy-3);}
-  .service-card .idx{font-family:'Jost',sans-serif;font-weight:500;font-size:12px;color:var(--blue);margin-bottom:20px;display:block;}
-  .service-card h3{font-size:23px;margin-bottom:14px;font-weight:600;}
-  .service-card p{color:var(--text-dim);font-size:15px;font-weight:300;}
+  .service-card{position:relative;perspective:1600px;min-height:236px;}
+  .service-card-inner{
+    position:relative;width:100%;height:100%;min-height:236px;
+    transition:transform .7s cubic-bezier(.4,.15,.2,1);
+    transform-style:preserve-3d;
+  }
+  .service-card:hover .service-card-inner,
+  .service-card.flipped .service-card-inner{transform:rotateY(180deg);}
+  .service-card-front,.service-card-back{
+    position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    padding:40px 34px;display:flex;flex-direction:column;justify-content:center;
+    background:var(--navy);
+  }
+  .service-card-back{transform:rotateY(180deg);background:var(--navy-3);}
+  .service-card .idx{font-family:'Jost',sans-serif;font-weight:500;font-size:12px;color:var(--blue);margin-bottom:20px;display:block;letter-spacing:.03em;}
+  .service-card-front h3{font-size:22px;margin-bottom:0;font-weight:600;line-height:1.25;}
+  .service-card-back p{color:var(--text-dim);font-size:14.5px;font-weight:300;line-height:1.65;}
+  .service-card-back .idx{margin-bottom:14px;}
+  @media (prefers-reduced-motion:reduce){.service-card-inner{transition:none;}}
 
   /* PROCESS */
   .process-list{display:flex;flex-direction:column;}
@@ -199,6 +214,29 @@
     pointer-events:none;user-select:none;letter-spacing:.02em;
   }
   .uf-label.atendido{fill:#ffffff;}
+
+  /* Marcadores de escritório */
+  .office-marker{cursor:pointer;}
+  .office-marker .office-pulse{
+    fill:none;stroke:var(--accent);stroke-width:2;
+    transform-origin:center;transform-box:fill-box;
+    animation:officePulse 2.2s ease-out infinite;
+  }
+  .office-marker.filial .office-pulse{animation-delay:.4s;}
+  .office-marker .office-dot{fill:var(--accent);stroke:#fff;stroke-width:1.2;}
+  .office-marker.matriz .office-dot{r:5;}
+  .office-marker.filial .office-dot{r:3.6;}
+  .office-label{
+    font-family:'Jost',sans-serif;font-weight:700;font-size:9.5px;
+    fill:#ffffff;paint-order:stroke fill;stroke:var(--navy);stroke-width:3px;
+    stroke-linejoin:round;text-anchor:middle;pointer-events:none;
+  }
+  @keyframes officePulse{
+    0%{r:4;stroke-opacity:.65;}
+    100%{r:13;stroke-opacity:0;}
+  }
+  @media (prefers-reduced-motion:reduce){.office-marker .office-pulse{animation:none;opacity:.5;}}
+  .atuacao-legenda-cor.accent{background:var(--accent);}
   .map-tooltip{
     position:fixed;pointer-events:none;background:var(--navy);color:var(--light);
     padding:8px 12px;border-radius:4px;font-size:13px;opacity:0;
@@ -388,7 +426,6 @@
       <img src="https://github.com/user-attachments/assets/6c0cc7a7-2599-4d9a-bd6d-3ee7624bda39" alt="PRR 5° REGIAO - RECIFE - PE">
       <img src="https://github.com/user-attachments/assets/f8b861cb-aec1-4d8e-8be0-b98058cf571f" alt="ROFE">
       <img src="https://github.com/user-attachments/assets/e7ae05a3-9c6b-4485-b482-1a5ac2d3d0d0" alt="Cedro">
-      <img src="https://github.com/user-attachments/assets/397cee27-fcac-4734-9941-42332fcda133" alt="Pillastro Engenharia">
       <!-- ↓ REPITA A MESMA LISTA AQUI EMBAIXO (mesma ordem) para o loop ficar contínuo -->
       <img src="https://github.com/user-attachments/assets/561db211-62f4-4179-b078-6639352d1122" alt="Banco do Brasil">
       <img src="https://github.com/user-attachments/assets/5575b1eb-2d62-4037-893e-7b21cac4ce8a" alt="Caixa">
@@ -405,7 +442,6 @@
       <img src="https://github.com/user-attachments/assets/6c0cc7a7-2599-4d9a-bd6d-3ee7624bda39" alt="PRR 5° REGIAO - RECIFE - PE">
       <img src="https://github.com/user-attachments/assets/f8b861cb-aec1-4d8e-8be0-b98058cf571f" alt="ROFE">
       <img src="https://github.com/user-attachments/assets/e7ae05a3-9c6b-4485-b482-1a5ac2d3d0d0" alt="Cedro">
-      <img src="https://github.com/user-attachments/assets/397cee27-fcac-4734-9941-42332fcda133" alt="Pillastro Engenharia">
     </div>
   </div>
 </div>
@@ -420,24 +456,124 @@
 
     <div class="services-grid reveal">
       <div class="service-card">
-        <span class="idx">01 / ENGENHARIA ESTRUTURAL</span>
-        <h3>Projeto Civil / Estrutural</h3>
-        <p>Desenvolvimento de projetos estruturais em concreto, aço e estruturas mistas, abrangendo modelagem, dimensionamento, detalhamento executivo, elaboração de memoriais de cálculo e compatibilização com as demais disciplinas.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">01 / ENGENHARIA ESTRUTURAL</span>
+            <h3>Projeto Civil / Estrutura</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">01 / ESTRUTURA</span>
+            <p>Desenvolvimento de projetos estruturais em concreto, aço e estruturas mistas, abrangendo modelagem, dimensionamento, detalhamento executivo, elaboração de memoriais de cálculo e compatibilização com as demais disciplinas.</p>
+          </div>
+        </div>
       </div>
       <div class="service-card">
-        <span class="idx">02 / ENGENHARIA ELÉTRICA</span>
-        <h3>Projeto Elétrico</h3>
-        <p>Projetos de baixa, média e alta tensão, SPDA, aterramento, iluminação, infraestrutura elétrica, subestações e sistemas especiais, desenvolvidos conforme as normas técnicas e os requisitos operacionais.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">02 / ENGENHARIA HIDROSSANITÁRIA</span>
+            <h3>Projeto Hidrossanitário</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">02 / HIDROSSANITÁRIO</span>
+            <p>Dimensionamento de sistemas de água fria, água quente, esgoto sanitário e reúso, com compatibilização estrutural e arquitetônica e atendimento às normas da ABNT e das concessionárias locais.</p>
+          </div>
+        </div>
       </div>
       <div class="service-card">
-        <span class="idx">03 / ENGENHARIA MECÂNICA</span>
-        <h3>Projeto Mecânico</h3>
-        <p>Projetos de climatização (HVAC), ventilação, exaustão, utilidades e sistemas mecânicos industriais e prediais, priorizando desempenho, eficiência energética e confiabilidade operacional.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">03 / DRENAGEM</span>
+            <h3>Projeto de Águas Pluviais</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">03 / ÁGUAS PLUVIAIS</span>
+            <p>Dimensionamento de calhas, condutores, caixas de captação e reservatórios de detenção, garantindo escoamento seguro e conformidade com os planos diretores e normas municipais de drenagem.</p>
+          </div>
+        </div>
       </div>
       <div class="service-card">
-        <span class="idx">04 / ARQUITETURA</span>
-        <h3>Projeto Arquitetônico</h3>
-        <p>Projetos arquitetônicos comerciais, industriais e institucionais, compatibilizados com todas as disciplinas de engenharia, visando garantir funcionalidade, eficiência e aprovação junto aos órgãos competentes.</p>
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">04 / SEGURANÇA CONTRA INCÊNDIO</span>
+            <h3>Combate a Incêndio</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">04 / COMBATE A INCÊNDIO</span>
+            <p>Elaboração de projetos de hidrantes, sprinklers, iluminação de emergência, sinalização e rotas de fuga, conforme as instruções técnicas do Corpo de Bombeiros, para aprovação e emissão do AVCB.</p>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">05 / ESTANQUEIDADE</span>
+            <h3>Projeto de Impermeabilização</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">05 / IMPERMEABILIZAÇÃO</span>
+            <p>Especificação de sistemas de impermeabilização para lajes, reservatórios, fundações e áreas molhadas, com detalhamento de camadas e juntas, visando estanqueidade e durabilidade da edificação.</p>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">06 / ENGENHARIA MECÂNICA</span>
+            <h3>Projeto Mecânico (HVAC)</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">06 / MECÂNICA</span>
+            <p>Projetos de climatização (HVAC), ventilação, exaustão, utilidades e sistemas mecânicos industriais e prediais, priorizando desempenho, eficiência energética e confiabilidade operacional.</p>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">07 / ENGENHARIA ELÉTRICA</span>
+            <h3>Projeto Elétrico &amp; Automação</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">07 / ELÉTRICA &amp; AUTOMAÇÃO</span>
+            <p>Projetos de baixa, média e alta tensão, SPDA, aterramento, iluminação e sistemas especiais, incluindo automação predial e industrial para monitoramento e controle inteligente das instalações.</p>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">08 / OBRAS DE INFRAESTRUTURA</span>
+            <h3>Projeto de Infraestrutura</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">08 / INFRAESTRUTURA</span>
+            <p>Desenvolvimento de projetos de terraplenagem, redes de água e esgoto, drenagem urbana e arruamento para loteamentos, condomínios e empreendimentos industriais.</p>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">09 / VIAS E PÁTIOS</span>
+            <h3>Projeto de Pavimentação</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">09 / PAVIMENTAÇÃO</span>
+            <p>Dimensionamento de pavimentos rígidos e flexíveis para vias, pátios e áreas de circulação de veículos pesados, considerando estudo de tráfego, geotecnia e especificação de camadas.</p>
+          </div>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-inner">
+          <div class="service-card-front">
+            <span class="idx">10 / ARQUITETURA</span>
+            <h3>Projeto Arquitetônico</h3>
+          </div>
+          <div class="service-card-back">
+            <span class="idx">10 / ARQUITETURA</span>
+            <p>Projetos arquitetônicos comerciais, industriais e institucionais, compatibilizados com todas as disciplinas de engenharia, visando funcionalidade, eficiência e aprovação junto aos órgãos competentes.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -548,6 +684,10 @@
           <span class="atuacao-legenda-cor"></span>
           Estados com atuação da V.H.G.
         </div>
+        <div class="atuacao-legenda">
+          <span class="atuacao-legenda-cor accent"></span>
+          Escritórios — matriz e filiais
+        </div>
       </div>
       <div class="mapa-brasil reveal">
       <svg
@@ -562,7 +702,7 @@
       		d="m 30.732574,238.03114 -2.08,-0.04 0.54,-1.81 -0.21,-0.83 -0.25,-0.49 -1.25,-0.7 -0.14,-0.45 0.27,-1.15 -0.77,-1.95 -1.09,-0.64 -5.6,-1.25 -7.34,-0.19 0.27,-0.56 2.49,-2.26 0.89,-1.23 0.29,-1.2 -0.22,-1.23 -0.68,-0.91 -0.83,-0.44 -1.68,-2.95 -0.77,-0.44 -0.9,-0.19 -1.13,-1.13 -0.92,-2.38 -2,-1.53 -0.98,-3.62 -0.87,-1.64 -1.88,-1.08 -0.08,-1.17 0.81,0.1 0.42,-0.52 0.07,-0.67 -0.2,-0.42 -2.12,-0.93 -0.36,-0.66 -2.16999996,-1.89 0.04,-0.37 0.62,-0.05 0.49999996,-1.32 -0.01,-1.31 3.01,-0.39 0.5,-0.39 -0.22,-1.35 -1.17,-1.57 0,0 17.95,7.48 23.66,5.66 12.14,3.14 26.44,14.17 28.509996,12.13 0,0 2.97,1.26 0,0 -0.3,0.48 -1.57,0.66 -2.09,1.59 -2.86,2.79 -1.65,0.86 -0.66,-0.18 -1.53,0.18 -0.05,0.56 -1.92,1.3 -2.08,0.99 -1.439996,1.83 -0.44,1.18 -0.61,0.28 -1.17,-0.75 -0.76,-0.13 -2.37,0.05 -0.68,0.26 -0.63,0.45 -0.36,0.86 -2.44,3.48 -3.77,1.25 -0.84,0.69 -1.94,0.51 -1.03,0.03 0.08,-2.11 -1.36,0.2 -3.55,-0.77 -5.24,-0.47 -5.09,0.38 -0.66,-0.58 -2.27,-0.17 -3.56,1.83 -2.73,0.62 -1.68,-0.67 -1.4,-1.44 -1.64,1.16 0.04,-17.55 0.05,-1.1 0.47,-0.71 0.07,-2.35 -0.26,-0.88 0.97,-1.18 0.48,-1.14 -1.16,0.2 -2.97,2.59 -1.6,1.01 -2.06,2.38 -1.95,0.67 -0.65,1.08 -1.81,0.99 z"
       	/>
       	<path
-      		class="estado"
+      		class="estado atendido"
       		data-uf="AL"
       		data-state="Alagoas"
       		d="m 562.17257,230.56114 -0.2,-0.73 -1.42,-0.78 -0.45,0.09 -1.02,-0.29 -0.54,-1.4 0,0 1.32,-1.07 0.64,-1.09 2.17,-0.76 2.38,-3.29 0.09,-0.69 0.82,-0.6 1,1.22 1.67,0.3 1.08,-0.12 2.55,2.02 1.9,2.12 1.78,1.05 1.91,0.48 2.5,-0.65 3.14,0.29 1.17,-0.11 1.86,-1.06 1.16,0.05 1.81,-1.11 2.18,-2.29 0.12,-0.45 1.55,-1.24 2,-0.24 2.24,0.85 2.56,-1.29 1.47,-0.19 1.92,0.81 2.9,0.27 0.27,0.21 0,0 -2.78,4.96 -4.55,5.13 -3.58,3.58 -3.04,4.58 -3.33,2.88 -1,2.03 -1.32,1.79 0,0 -0.6,-1.31 -3.59,-2.23 -0.46,-0.03 -1.66,-0.79 -1.76,-1.45 -1.3,-2.45 -5.42,-3.07 -3.68,-0.95 z"
@@ -628,7 +768,7 @@
       		d="m 359.21257,400.07114 -0.4,2.46 -0.28,0.4 -1.5,0.78 -1.32,0.04 -0.47,0.22 -1.22,1.03 -1.99,2.68 -0.73,0.65 -1.01,0.3 -0.62,1.68 -0.16,2.93 -2.59,3.64 -0.96,0.52 -0.23,0.38 0.31,1.93 -0.08,0.95 -1.21,2.34 -2,2.26 0.35,0.85 -0.28,1.21 -1.44,1.03 -0.4,1.21 -1.73,1.69 -1.26,2.44 -1.95,1.87 -7.56,4.53 -1.26,1.14 -0.74,1.54 -0.84,1.08 0,0 -5.41,2.27 -1.11,0.82 -0.93,2.33 0.02,1.15 -1.45,3.56 -0.67,0.68 -1.66,1.01 -1.11,0.32 -0.33,0.35 -1.57,7.92 -0.36,0.82 -2.38,1.56 0,0 -2.55,-2.33 -3.41,-1.89 -3.99,1.97 -0.68,0.75 -1.66,0.49 -2.58,0.43 -2.36,-0.46 -1.01,-0.65 -0.47,-4.27 -0.32,-0.7 -0.9,-0.95 -0.23,-2.47 0.51,-1.34 -0.64,-0.79 -0.09,-0.44 0,-2.87 -0.89,-1.97 -0.6,-2.74 -0.05,-0.72 0.59,-1.36 0.02,-1.61 -1.57,-1.09 -0.38,-0.8 -0.16,-2.16 -1.65,-1.82 -2.17,-0.26 -1.51,0.31 -1.83,-0.29 -2.46,-1.96 -0.56,-1.49 -1.54,0.33 -2.17,2.74 -1,-0.6 -1.72,0.81 -1.08,0.16 -1.74,-0.69 -2.56,-0.49 -3.46,0.23 -3.66,-0.71 -0.48,-0.91 -1.99,-0.13 -0.89,0.52 -2.5,-0.88 0.91,-7.27 -0.43,-2.38 0.6,-1.42 0.98,-1.46 0.6,-6.03 -0.66,-2.33 -0.05,-1.73 -0.76,-0.96 -0.43,-0.09 -0.49,0.65 -0.64,-3.26 -0.79,-1.87 -1.21,-2.02 -0.35,-1.83 4.03,-2.3 0.76,-0.88 -4.2,-3.86 5.38,-11.42 1.12,-0.06 -0.28,-2.13 -0.74,-0.13 3.23,-10.33 0.66,-1.16 -3.09,-5.85 0.03,-1.91 0,0 0.7,0.2 1.02,1.1 2.15,1.52 5.62,-1.97 2.05,-2 2.02,-2.95 0.09,-1.17 1.4,-1.45 2.59,0.03 1.56,-0.22 0.77,0.34 1.66,-0.51 1.35,-1.25 2.02,-0.49 1.27,0.2 0.76,1.15 2.79,1.25 2.62,0.47 0.65,0.35 0.27,0.86 0.78,1.02 3.03,1.16 1.26,1.11 1.24,0.57 4.52,-0.63 1.26,-0.8 0.49,-0.85 1.43,-0.61 2.44,0.07 1.59,1.04 0.3,1.37 0.24,0.25 0.99,0.04 2.13,-0.88 1.01,0.06 5.62,-6.01 1.34,-0.13 -1.23,6.61 -1.8,0.7 -1.66,2.83 -0.19,0.46 0.15,0.53 1.3,0.11 1.74,1.27 4.62,0.27 0.57,-0.57 2.66,-0.08 0.87,0.08 1.17,0.57 1.55,-0.31 0,0 0.19,1.77 -0.26,2.58 0.23,1.11 0.28,0.41 0.66,0.19 1.14,-0.67 2.25,0.9 0.08,0.42 -1.31,1.76 -0.57,1.17 -0.26,0.84 0.13,0.33 3.8,0.7 2.78,-0.16 2.7,1.68 1.14,0.17 1.44,0.71 0.67,0.61 3.07,1.56 0.68,0.85 3.35,1.34 1.49,0.04 1.9,0.43 1.62,1.55 3.15,0.61 2.66,2.24 0.24,0.45 0,0 -0.58,0.25 -0.99,4.18 0.59,3.21 z"
       	/>
       	<path
-      		class="estado"
+      		class="estado atendido"
       		data-uf="MG"
       		data-state="Minas Gerais"
       		d="m 527.76257,365.59114 -0.91,-0.55 -2.54,-0.81 -1.58,0.08 -1.08,0.32 -0.84,0.61 -2.18,0.29 -1.34,-0.13 1.67,2.27 -0.02,0.81 -1.13,-0.11 -1.05,-0.74 -0.31,0.02 -2.17,1.31 -1.17,1.93 0.3,0.7 1.33,0.67 0.52,0.66 -0.03,1.92 -0.3,1.54 0.21,0.41 1.31,0.35 0.17,1.72 -0.32,0.42 -0.95,0.24 -0.97,-0.03 -0.8,-0.35 -1.48,0.09 -0.43,0.55 0.49,0.71 0.76,0.28 0.45,-0.29 0.52,0.09 1.1,1.27 1.27,2.81 0.29,2.43 -0.54,2.97 -1.71,2.09 -1.24,0.86 -0.26,0.44 -0.24,1.72 -0.88,2.29 -1.11,1.27 -0.97,3.24 -0.55,0.32 -5.15,-0.03 -1.72,2.06 -0.16,0.42 0.59,3.12 -0.57,1.3 -0.44,2.34 0.29,0.14 0,0 -2.53,2.35 -1.24,0.27 -0.56,0.5 0.74,0.7 -2.36,6.05 -1.9,3.71 -0.09,0.75 1.44,0.13 0.29,0.61 -0.21,0.52 -2.53,0.98 -9.51,4.53 -1.37,0.2 0.02,-0.46 -0.49,-0.17 -2.53,-0.27 -0.57,0.06 -1.62,0.94 -1.25,0.16 -3.2,0.08 -0.36,-0.32 -0.51,0.08 -4.1,1.78 -1.05,0.77 -1.71,0.77 -0.5,-0.28 -2.59,0.17 -2.91,1.34 -2.42,0.74 -0.68,0.49 0,0 -1.25,0.73 -2.2,0.22 -1.93,1.02 -1.23,1.24 -1.79,0.67 -2.38,0.25 -2.34,-0.08 -0.01,-0.49 0.35,-0.49 -0.09,-0.35 -1.19,0.33 -0.18,2.3 0.24,0.23 -0.05,0.84 -0.75,0.98 -1.3,0.32 -0.57,-0.43 -3.61,1 -0.19,-0.53 -2.01,0.24 -1.12,-0.25 -2.03,-3.31 1.22,-0.71 -0.52,-1.71 -1.8,-0.83 -1.79,-1.23 -0.71,-1.61 0.53,-1.56 0.19,-3.45 -0.26,-2.94 1.86,-2.72 0.7,-2.18 0.05,-1.27 -0.23,-0.37 -3.7,-1.32 -1,0.05 -0.28,0.36 -0.78,0.31 -1.61,0.05 0.03,-0.85 -0.83,-1.99 -1.3,-1.79 -0.37,-2.21 -0.31,-0.62 -0.79,-0.74 0.19,-1.94 1.52,-2.03 0.06,-0.56 -0.4,-1.55 -1.88,-1.21 -0.58,-0.61 0.29,-2.37 0.57,-1.01 -0.2,-1.04 -3.27,-3.35 -1.3,0.29 -0.85,0.64 -1.65,-0.78 -2.38,0.11 -0.31,0.61 0.2,0.46 -0.44,0.99 -2.78,0.68 -1.11,-0.43 -1.51,-1.45 -1.01,1.25 -8.18,0.68 -0.46,0.48 -0.48,1.19 0.27,2.54 -0.41,0.44 -1.19,-0.52 -0.01,-2.78 -0.25,-0.96 -0.36,-0.39 -0.56,-0.05 -0.26,0.19 -0.41,1.13 -0.67,0.94 -0.54,0.32 -0.62,-0.02 -1.21,-2.1 -0.33,-1.42 0.14,-0.91 -1.68,-0.79 -2.18,-1.42 -1.99,0.59 -1.62,-0.22 -1.67,0.35 -4.29,-0.96 -2.55,-0.08 -1.73,-1.55 -0.75,-0.14 -1.5,0.61 -1.43,1.69 -1.92,0.37 -2.15,1.11 -1.22,1.13 0,0 0.31,-2.62 -0.59,-3.21 0.99,-4.18 0.58,-0.25 0,0 0.86,0.46 0.36,-0.23 0.01,-0.34 -0.56,-0.61 0.57,-1.9 1.64,-2.1 0.94,-0.74 0.45,-0.14 0.84,0.16 0.82,-0.28 0.84,-1.3 -0.06,-1 1.21,-2.46 1.41,-2.1 2.23,-0.54 2.48,-0.96 3.71,0.62 3.19,-1.64 1.52,0.3 1.31,1.42 0.33,0 2.91,-2.92 4.13,-2.64 2.01,0.89 3.86,-0.16 1.48,0.28 1.75,-0.01 0.58,-0.09 0.55,-0.48 4.35,1.86 0.7,0.77 4.89,-2.74 0.48,-1.12 0.86,-0.9 1.16,-0.2 3.09,-2.06 -1.19,-3.46 0.51,-1.89 0.73,-0.9 0.17,-0.71 -0.18,-1 -0.47,-0.61 -1.58,-0.57 -0.9,0.47 -1.09,-1.11 0.43,-2.14 3.24,-3.01 2.32,-2.71 0,-0.6 -1.65,-4.56 -1.42,-1.03 -0.85,-0.34 -0.85,-1.21 0.41,-1.47 1.04,-1.25 0.68,-1.59 -0.31,-1.57 0.53,-1.52 1.27,-0.12 2.29,-1.51 3.36,-0.9 0.53,-0.53 -0.69,-4.26 -0.53,-0.19 -0.42,-0.61 -0.04,-1.9 0.73,-0.7 0.57,-0.94 -0.49,-1.16 -0.72,-0.1 0.72,-3.18 0.37,-0.28 1.17,-0.23 2.78,1.14 0.4,-0.13 0.57,-0.54 -0.58,-3.77 1.17,-1.49 2.42,1.48 0.9,1.76 3.23,0.34 1,-1.01 0,0 0.51,2.41 -1.43,3.44 0.4,0.23 1.34,-0.91 0.7,-1 0.72,-0.13 2.13,0.38 1.04,-0.77 1.85,-2.57 0.99,0.15 1.43,-0.53 1.81,-1.55 0.95,-1.17 2.02,-0.41 3.37,-1.86 0.64,-1.11 4.27,-3.03 3.82,-1.58 1.8,0.09 1.2,0.5 2.18,0.03 2.28,0.53 0.85,0.46 -1.29,2.74 -0.15,0.89 0.26,1.49 0.61,0.5 5.33,1.46 0.64,-0.17 0.81,-1.12 1.88,-0.89 1.77,-0.26 2.73,0.75 1.1,0.54 4.35,3.64 0.98,-0.18 2.17,1.62 2.53,1.22 0.93,0.22 0.51,-0.21 1.53,1.24 4.39,-1.23 0.38,0.18 6.52,6.2 0.44,3.96 0.57,-0.21 2.61,0.45 1.47,-0.5 1.32,-0.99 1.99,0.15 2.73,0.56 2.26,1.08 2.19,0.61 2.12,-0.03 2.83,2.47 0.73,0.38 0.89,0.07 0.78,1.02 0.42,1.17 -1.47,3.08 -4.96,4.22 -0.15,2.65 0.56,1.02 0,0.42 -1.02,0.71 -2.48,-0.24 -0.82,0.88 -0.82,3.3 -0.53,4.4 0.22,0.25 0.35,-0.19 0.2,-0.45 0.64,-0.24 0.58,1.23 -0.22,1.51 0.15,0.51 4.14,3.06 0.53,1.04 0.01,0.53 -0.68,1.35 z"
@@ -640,7 +780,7 @@
       		d="m 371.29257,235.50114 -62.97,-3.48 -34.04,-2.42 -3.69,-1.49 -1.37,0.45 -0.35,-0.31 -0.2,-1.09 -0.55,-0.72 -1.63,-0.45 -0.82,0.17 -0.95,-0.39 -0.23,-0.5 0.04,-1.1 -0.23,-0.94 -3.38,-1.7 -3,-2.76 -1.54,-1.11 -0.72,-2.2 -0.48,-2.39 0.23,-2.44 -0.77,-1.63 -1.33,-1.93 -1.37,-3.95 -0.39,-1.76 -2.45,-4.06 -1.18,-1.08 0,0 -0.57,-0.56 -0.15,-1.96 -0.64,-1.26 -1.59,-1.56 -1.07,-0.58 -0.37,-0.57 -0.83,-2.34 0.03,-1.13 0.58,-0.97 1.45,-1.13 0.78,-1.31 29.9,-64.24 -1.81,-1.67 0.13,-0.78 -0.19,-0.48 -1.39,0.35 -0.85,0.61 -1.87,-0.78 -1.1,-2.17 -2.69,-1.45 -1.27,-1.34 -0.08,-0.6 -1.32,-0.82 -1.37,-0.15 -2.25,-0.65 -2.38,-1.31 -1.88,-0.67 -1.35,-1.09 -0.63,-0.9 -4.58,-2.54 -4.64,-3.769996 -0.3,-0.44 -0.04,-0.93 -0.55,-1.83 -1.84,-1.23 -0.7,0.19 -0.36,-0.2 -1.83,-1.98 0.05,-2.11 0.35,-0.69 -0.18,-0.41 -1.69,-0.85 -0.24,-0.68 -0.18,-2.27 0.43,-1.45 -0.4,-4.86 0,0 -1.59,-16.97 0,0 0.75,0.32 0.43,0.58 -0.02,0.48 0.45,0.4 0.92,0.28 1.37,-0.71 0.47,-0.81 2.71,0.23 0.81,-1.05 -0.54,-1.81 1.79,-0.36 1.41,-1.63 2.64,1.01 1.88,0.03 0.54,-1.52 3.33,-1.62 1.97,0.39 1.16,-0.11 0.49,-0.25 1.2,-1.48 0.4,-1.4 1.46,-1.1 0.86,-0.11 0.65,0.46 2.11,-1.13 0.41,0.11 0.37,0.99 0.73,0.45 2.03,0.48 1.61,0.25 0.56,-0.6 1.67,-0.39 0.78,0.28 0.82,-0.01 0.86,-0.34 2.24,0.3 4.67,1.38 0.96,-0.14 1,-0.87 -0.03,-2.28 -2.07,-2.5 -1.24,-0.63 0.49,-1.68 1.31,-1.45 0.28,-1.11 0.31,-0.17 0.71,0.19 0.83,0.76 2.35,1.11 11.62,-2.33 1.57,1.69 1.02,0.06 0.44,-0.29 0,0 0.62,0.57 0.37,2.3 -0.62,1.3 -0.25,4.54 0.24,1.44 0.31,0.54 1.17,0.02 1.08,-0.29 3.39,0.37 1.29,0.49 1.93,1.05 0.67,0.8 0.49,1.28 1.19,0.12 1.14,0.84 0.8,0.98 0.84,0.27 1.33,-0.14 0.38,-0.42 0.94,-0.14 2.84,2.66 0.68,-0.03 0.49,1.18 -0.68,0.23 -0.19,0.72 0.76,2.83 2.02,2.26 2.57,0.73 0.17,0.33 -0.43,3.14 0.19,2.11 0.67,1.51 0.62,0.56 0.59,1.81 -0.13,1.58 1.5,3.48 0.82,0.19 0.78,-0.36 2.93,3.28 -0.08,2.43 0.41,0.94 0.95,0.19 0.33,0.47 0.31,1.58 -0.21,0.69 0.11,1.3 1.87,1.39 0.43,1.5 1.45,1.03 2.79,0.679996 1.3,-0.12 0.77,-0.339996 0.94,0.06 0,0 -0.53,0.739996 0.29,1.59 -0.17,0.53 -1.29,1.11 -1.39,0.17 -0.5,-0.18 -0.84,-0.79 -0.66,-0.15 -3.38,1.58 -0.37,0.54 -1.6,0.72 -0.63,-0.02 -1.55,0.59 0.04,0.58 6.46,-1.06 0.88,0.66 0.13,0.46 0,0.66 -0.62,0.5 0.3,0.36 0.63,-0.2 0.86,-1 1.02,-0.01 0.53,-0.27 0.6,0.12 1.07,-0.42 1.14,-0.57 3.28,-2.34 1.5,-0.35 1.84,-0.81 3.16,-1.84 0.54,-0.999996 0.67,-0.52 2.09,-1.01 0.66,-0.72 -0.25,-0.67 0.21,-0.41 1.13,-0.28 1.09,0.06 0.41,0.21 0.38,3.799996 -0.52,2.58 0.33,1.62 0.81,1.6 1.31,1.35 0.3,1.64 -0.12,0.47 -1.84,1.84 -0.47,0.13 -0.87,-0.52 -1.82,-0.52 -1.26,-0.31 -0.93,0.14 -2.13,-1.04 -0.26,-1.12 -0.88,-0.53 -2.28,3.82 -0.61,2.37 0.68,2.97 0.48,0.64 0.92,0.62 -1.01,-1.14 -0.43,-2.69 0.12,-0.52 2.57,-4.22 2.31,1.18 0.11,0.45 2.53,2.45 -0.25,2.02 -0.74,0.55 0.4,2.33 0.52,1.13 1.12,0.75 0.74,0.15 0.52,0.49 -0.34,-0.64 -0.77,-0.24 -1.2,-1.04 -0.22,-0.68 0.34,-4.2 0.82,-1.19 1.43,0.73 0.83,1.2 -0.09,0.79 1.2,0.86 0.25,-0.29 -1,-1.26 -0.92,-2.1 0,-0.44 2.26,-2.32 1.62,0.09 1.93,0.64 0.34,0.56 -0.61,0.59 0.32,0.28 0.48,0.03 1.03,-0.17 1.33,-0.9 4.09,-0.96 0.77,0.2 1.74,1.06 3.17,-0.42 1.07,-0.41 1.02,-1.01 0.98,-0.59 1.74,-0.51 0.77,0.07 0.06,0.75 -2.04,4.02 -0.24,1.5 -0.46,1.07 -0.83,1.03 -0.01,0.88 0.58,1.42 -0.32,2.47 0.88,-1.19 0.01,-1.4 1.54,-3 1.13,-3.19 1.12,-1.56 0.27,-0.27 0.76,-0.05 0.58,-0.35 1.82,-0.23 0.88,-1.35 1.51,-1.69 1.36,-2.26 0.52,-0.46 0.79,0.49 0.62,-0.46 1.62,2.34 1.19,0.59 -0.05,-0.74 -0.35,-0.75 0.62,-1.01 3.51,-0.51 -1.03,-0.32 -3.51,0.46 -0.31,-0.21 0.29,-2.43 0.51,-0.29 0.67,0.38 1.02,0.11 1.07,-3.099996 -0.68,-1.39 0.03,-0.68 1.17,-1.81 2.84,-2.48 0.36,-0.08 1.11,1.14 2.93,-2.09 0.46,-0.07 0.4,0.45 0.1,0.57 -0.32,0.67 1.07,-0.16 0.81,-0.58 0.36,-0.78 0.63,-0.19 0.28,0.15 0.74,1.39 1.33,1.2 0.2,-0.56 -0.11,-0.38 -0.96,-0.49 -0.14,-0.29 -0.13,-1.2 0.17,-0.42 0.44,-0.19 2.28,0.26 1.18,0.65 0.62,1.02 1.63,0.71 1.65,-0.78 0.53,2.14 -0.5,0.31 -0.03,0.59 0.92,-0.52 1.16,-2.35 0.38,0.23 -0.23,1.33 0.41,0.44 2.51,-0.26 0.45,0.65 0.46,1.68 -0.6,0.95 0.85,-0.5 0.26,0.37 1.89,0.14 3.53,-1.24 -0.31,1.58 -0.75,1.829996 1.47,-0.489996 0.59,-0.62 0.63,1.619996 0,0 -0.77,0.45 -0.47,1.03 0.16,1.38 -0.71,4.39 -0.57,0.74 -1.14,0.15 -0.05,0.62 0.27,0.49 0.99,-0.16 0.43,0.53 -0.08,1.61 -0.9,3.02 -0.36,0.71 -1.74,1.57 -0.5,2.38 0.13,1.64 -3.68,3.09 1.04,1.58 -0.79,0.81 0.18,1.82 -0.46,1.28 -0.83,1.45 -1.48,1.76 -1.96,1.54 -1.6,4.69 -0.29,1.9 -0.47,1.21 -2.44,2.32 -1.12,0.46 -0.62,2.88 -1.55,1.17 -0.43,1.15 -1.55,2.17 -1.17,0.92 -2.35,-0.23 -14.71,11.83 0.49,0.08 0,0 2.29,0.81 1.87,-0.24 1.29,0.12 1.02,1.66 0.39,0.31 0.87,0.14 1.26,1.17 -0.04,0.63 -0.37,0.67 -0.72,0.37 -0.97,0.07 -0.29,0.28 0.09,1.41 1.01,1.34 -0.92,2.75 -0.64,0.48 -1.46,0.46 -0.25,0.46 0.29,1.2 -0.19,1.34 -1.3,0.15 -1.51,1.34 -0.85,1.27 0.15,1.51 -0.24,0.5 -2.5,1.2 -3.41,1.14 -2.47,1.78 -0.19,0.35 0.43,2.19 0.06,2.67 -1.28,2.1 -1.41,1.68 -0.15,0.57 0.17,0.88 0.59,0.96 1.67,1.74 0.75,0.32 0.15,0.3 -0.66,4.04 -1.76,5.15 -1.08,0.81 -1.7,3.24 -0.18,0.99 -0.94,1.54 -0.74,0.85 -1.05,0.16 -1.37,0.92 -1.03,1.92 -1.21,1.68 -1.18,1.09 -1.15,1.58 -1.13,4.46 -1.6,3.66 z m 21.16,-130.31 -4.52,1.96 -3.39,0.52 -2.02,-0.31 -0.65,1.13 -1.84,1.19 -0.72,-0.61 -0.61,-1.53 -0.23,0.28 0.42,1.23 -0.34,0.81 -0.71,0.41 -3.77,-1.64 -0.8,0.72 -4.19,1.26 -3.2,-0.57 -0.81,-0.61 -0.24,-1.85 -0.23,-0.41 -1.11,-1.02 -1.06,-1.6 -0.21,-1.78 0.52,-2.75 0.62,-0.379996 1.76,0.359996 0.93,-0.749996 0.08,-0.56 -1.3,0.43 -1.22,-0.13 -0.94,-0.71 -0.18,-1.05 0.34,-5.08 0.73,-0.76 0.35,0.75 1.76,0.6 0.55,-0.06 -0.46,-0.42 -1.27,-0.22 -0.9,-2.16 0.36,-1.68 0.89,-1.97 1.33,-1.33 0.96,-0.57 1.34,-0.49 1.32,-0.13 3.46,0.52 7.21,1.77 3.7,-0.46 0.11,-0.3 1.14,-0.62 2.16,-0.37 2.89,0.29 2.8,0.82 6.48,0.85 0.63,0.47 -0.05,1.23 -0.7,0.74 -0.68,1.5 -0.36,2.65 -0.86,3.3 -1.29,0.68 -0.35,0.69 0.23,1.19 -1.98,2.579996 -1.39,3.5 -0.49,0.45 z m -47.21,-0.17 -0.75,-0.51 1.1,-2.25 -0.09,-1.79 0.25,-0.21 2.33,-0.479996 0.9,-0.86 0.15,-0.5 -0.2,-2.34 0.86,-2.58 1.26,-1.49 2.29,-1.47 2.87,-0.2 0.72,2.36 -1.1,2.19 -0.85,3.04 -1.1,0.67 -1.34,2.029996 -0.78,0.72 -4.94,3.31 -1.58,0.36 z m 28.48,-22.899996 -1.03,-0.25 -2.45,0.08 -0.79,-0.16 -0.29,-0.26 -0.38,-1.09 0.01,-1.24 1.51,-0.42 1.89,0.04 2.19,-1.29 4.81,-0.6 0.77,0.26 0.68,0.68 -0.18,1.02 -2.56,1.39 -1.78,2.48 -1.1,0.5 -1.3,-1.14 z m 4.79,0 1.86,-1.2 1.98,0.03 1.65,0.62 0.53,0.99 0.05,0.62 -0.88,0.77 -2.85,0.28 -1.17,0.32 -2.26,-0.89 -0.2,-0.53 1.29,-1.01 z m -16.98,4.39 -0.5,-0.26 -0.61,0.04 -1.54,-0.69 0.21,-1.16 0.64,-0.92 1.92,-0.4 2.36,-0.9 1.32,0.08 0.8,0.68 0.09,0.13 -1.93,1.61 -1.07,0.34 -1.69,1.45 z m 9.42,-9.69 -0.82,-0.3 -0.17,-1.66 0.15,-0.6 1.17,-1.31 2.45,-0.92 0.25,0.12 0.53,0.68 0.04,0.89 -1.95,1.99 -1.65,1.11 z m -13.83,20.22 -0.14,-0.41 0.19,-0.93 1.04,-2.81 2.59,-1.69 0.72,-0.28 0.69,0.14 -0.16,1.79 -1.56,0.44 -1.62,2.19 -1.75,1.56 z m 10.91,-17.57 -1.19,-0.31 -0.3,-0.48 0.88,-0.96 0.71,-3.95 0.89,-1.23 0.29,0.13 0.07,0.32 -0.02,2.48 0.6,1.87 -0.32,0.88 -1.03,0.4 -0.58,0.85 z m -14.81,10.19 -0.27,-0.19 0.12,-0.61 0.55,-0.36 1.19,-1.71 0.76,-1.54 0.73,-0.66 1.45,-0.54 -0.2,1.49 -0.4,1 -1.72,1.66 -2.21,1.46 z m 13.87,-7.03 -0.6,-0.15 -0.84,-0.71 -0.96,-1.64 -0.05,-0.38 0.23,-0.29 0.81,-0.58 1.85,0.84 0.29,0.43 0.24,2.09 -0.97,0.39 z m -5.38,30.559996 -0.65,-0.11 -0.88,-0.52 -0.69,0.46 -0.75,-0.28 -1.68,-1.74 0,-0.61 1.28,-0.01 3.06,1.32 0.31,1.49 z m -21.15,-5.54 0.04,-1.03 -0.2,-0.3 0.6,-0.99 2.36,-0.88 0.78,0.38 0.87,0.86 -0.29,0.35 -1.03,0.47 -2.54,0.41 -0.59,0.73 z m 12.7,-6.69 -0.18,-0.03 0.01,-0.35 0.54,-0.939996 1.79,-1.62 0.42,-1.24 0.05,-1.3 0.24,-0.3 0.32,0.44 0,1.51 -0.89,2.73 -0.62,0.649996 -1.68,0.45 z m 6.3,-9.899996 1.65,-2.96 0.88,-0.21 0.71,0.19 0.27,0.87 -0.58,0.71 -2.93,1.4 z m 31.42,18.969996 -0.84,-0.35 -0.34,-1.06 1.04,-1.72 1.07,-0.33 0.19,0.1 -0.02,0.74 -0.74,2.24 -0.36,0.38 z m -33.48,-19.469996 -0.54,-0.2 0.32,-2.04 1.33,-1.81 0.23,0.04 1.29,0.88 -0.01,0.25 -1.55,0.64 -1.07,2.24 z m 2.23,5.03 0.72,0.03 -0.4,0.45 -0.94,0.31 -0.11,1.12 -0.79,0.71 -1.69,0.84 -0.16,-0.18 0.27,-0.83 0.47,-0.63 1.73,-1.67 0.9,-0.15 z m -22.56,10.209996 -0.55,-0.19 -0.07,-0.35 0.43,-0.4 3.56,-1.6 0.54,0.7 -0.01,0.2 -1.4,0.73 -2.5,0.91 z m 63.53,-4.78 -1.03,-0.19 -0.82,-0.79 0.87,-1.249996 1.34,-0.01 0.19,1.19 -0.1,0.589996 -0.45,0.46 z m -37.25,-18.899996 -2.36,0.7 -0.59,0.01 -0.18,-0.21 1.03,-1.04 1.04,-0.51 1.04,0.17 0.44,0.34 0.15,0.23 -0.15,0.21 -0.42,0.1 z m -5.27,8.59 -0.08,-0.76 0.25,-0.5 2.48,-1.46 -0.9,2 -0.81,0.63 -0.94,0.09 z m 2.14,4.53 -0.45,-0.12 -0.07,-0.23 0.78,-1.5 1.19,0.02 -0.12,1.35 -1.33,0.48 z m 28.04,15.829996 -0.28,-0.23 0.9,-1.6 0.68,-0.4 0.23,0.75 0.51,0.37 -0.26,0.52 -0.43,0.34 -0.63,-0.18 -0.72,0.43 z m -26.66,-23.319996 -0.89,-0.07 0.02,-0.19 2.36,-1.84 0.04,0.96 -0.23,0.63 -0.25,0.34 -1.05,0.17 z m 67.46,10.22 -0.38,-0.53 0.19,-0.76 1.02,-0.91 0.25,0.15 0.23,1.75 -1.31,0.3 z"
       	/>
       	<path
-      		class="estado"
+      		class="estado atendido"
       		data-uf="PB"
       		data-state="Paraíba"
       		d="m 610.69257,199.41114 -2.5,-2.06 -0.82,-0.26 -2.65,-0.21 -2.31,1.07 -1.48,1.28 -0.45,1.8 -1.9,1.03 -2.01,0.45 -1.14,-0.02 0,0.6 -0.8,0.53 -2.18,0.29 -3.88,-0.26 -1.61,0.88 -0.55,0.64 -1.82,0.1 -0.89,0.69 -0.54,0.76 0.39,0.73 0.01,0.54 -0.4,0.48 -1.78,1.53 -1.34,0.16 -1.65,0.84 -1.6,-0.79 -0.95,-0.94 -0.35,-2.24 0.24,-0.49 -0.18,-0.3 -1.14,-0.32 -0.44,0.29 -1.51,0.25 0.04,-0.45 2.53,-2.64 0.17,-0.43 -0.72,-1.87 -0.04,-0.47 0.37,-0.78 3,-1.07 0.11,-0.3 -0.5,-1.39 -3.5,-1.92 -1.48,0.41 -2.22,1.26 -0.93,1.51 -1.48,0.87 -1.05,0.31 -2.7,1.88 -1.52,1.64 -1.63,0.23 -2.63,0.97 -0.77,-0.33 0.05,-0.68 -0.63,-1.24 -0.38,-0.08 -0.93,0.73 -1.51,0.32 -0.99,-0.33 -1.4,-1.91 -0.4,-0.09 0,0 -0.17,-0.25 1.19,-1.12 1.61,-3.49 -0.34,-1.19 -0.69,-0.08 -1.24,-0.89 0.02,-1.66 -0.35,-0.72 -0.58,-0.29 -0.24,-0.41 0.12,-0.93 0.17,-0.38 1.09,-0.63 0.66,-1.31 -0.52,-1.31 1.03,-3 0.84,-1.15 0.08,-0.54 0,0 0.57,-0.46 1.93,1.64 0.9,0.42 2.88,0.61 1.16,-1.13 3.23,-1.66 0.82,-0.71 0.1,-1.04 0.41,-0.95 3.18,-1.21 1.43,-0.12 3.26,-1.04 0.64,0.08 0.53,0.44 0.01,1.19 -2.99,3.21 -0.44,0.96 -0.38,1.74 -0.41,0.38 -0.85,0.25 -0.21,0.31 -0.08,1.72 3.53,0.52 0.32,0.23 0.31,1.38 0.29,0.23 3.15,-1.26 1.77,-0.08 1.95,0.3 0.89,1.17 -0.52,1.54 0.83,0.74 2.35,-0.93 0.5,-0.74 0.55,-1.21 -0.47,-0.94 -0.16,-1.42 0.48,-0.59 1.01,0.32 -0.53,-1.53 -0.72,-0.78 0.31,-1.48 1.82,-1.35 1.38,-0.05 0.42,0.39 -0.1,1 0.62,0.49 3.42,0.4 0.53,0.35 5.83,-0.39 2.17,0.3 2.46,1.1 1.04,-0.4 3.5,0.21 0.93,-0.24 0,0 0.09,2.4 1.45,4.39 0.06,0.64 -0.18,0.94 -0.37,0.45 -0.03,0.88 0.58,-0.74 0.51,-1.5 0.01,1.98 0.59,1.01 -0.27,5.18 -0.36,0.6 z"
@@ -712,13 +852,13 @@
       		d="m 570.20257,261.95114 -2.9,0.89 -1.55,-0.64 -0.54,-0.34 -0.48,-0.72 -1.92,-0.92 -0.6,-0.52 -0.12,-0.41 0.34,-0.39 0.13,-1.42 -0.15,-0.39 -1.43,-1.51 -0.52,-1.49 -1.09,-0.67 -0.96,-1.6 -0.02,-0.77 0.59,-1.58 0.32,-0.3 1.7,0.01 1.13,0.75 2.55,-0.99 0.69,-0.55 0.3,-0.58 -0.76,-2.75 0.08,-0.88 0.66,-1.62 0.08,-3.11 -0.75,-1.15 -1.99,-1.95 -1.27,-2.5 -0.22,-2.14 0.67,-1.15 0,0 6.46,2.98 3.68,0.95 5.42,3.07 1.3,2.45 1.76,1.45 1.66,0.79 0.46,0.03 3.59,2.23 0.6,1.31 0,0 -2.38,0.76 -4.57,2.94 -0.97,0.89 -1.55,2.21 -0.32,-0.02 0.11,-1.1 -1.05,-1.82 -0.99,0.16 0.34,1.16 1.24,0 0.23,0.24 -0.52,1.97 -1.27,2.09 -0.53,-0.35 -0.37,-0.67 -0.99,-0.16 0.2,0.68 1.13,0.62 -0.26,1.77 -0.86,1.15 -0.93,2.03 -0.78,0.15 -0.3,-0.46 0.48,-1.4 0.41,-0.13 0.31,-0.43 0.37,-1.04 -0.81,-0.37 0.1,0.68 -0.45,1.13 -0.48,0.5 -0.26,1.09 0.28,0.72 -0.26,0.52 z"
       	/>
       	<path
-      		class="estado"
+      		class="estado atendido"
       		data-uf="TO"
       		data-state="Tocantins"
       		d="m 433.61257,282.08114 -5.36,1.42 -1.74,1.34 -2.56,1.1 -1.55,0 -4.53,1 -2.52,2.08 -1.78,0.9 -0.46,-0.24 -1.51,-2.62 -0.55,-0.03 -0.51,3.3 -0.69,0.08 -3.35,-0.68 -3.13,-1.47 0.56,-1.56 -0.22,-0.74 -4.53,0.53 -2.76,-0.34 -0.56,0.54 -0.3,1 -0.75,0.75 -1.14,-0.05 -0.61,-3.1 -1.11,-3.71 -1.04,-1.88 -1.15,-1.31 -1.18,0.97 -1.47,2.39 -1.63,5.94 -0.63,0.23 -4.07,-1.43 -3.09,-1.71 -3.93,-0.4 -2.2,-1.03 -2.4,-0.4 0.52,-2.34 1.22,-1.88 0.03,-1.71 -0.56,0.3 -1.81,2.09 -0.66,1.23 -0.2,1.88 -0.34,0.45 0,0 -0.8,-0.02 -0.96,-0.51 -0.98,-3.34 0.74,-2.76 -0.44,-3.05 -0.52,-0.58 -0.01,-1.57 0.47,-3.31 -1.1,-2.25 0.05,-0.5 0.82,-0.89 0.16,-0.87 -1.39,-1.34 -0.06,-0.86 1.88,-5.99 0.04,-2.95 0.54,-2.97 1.94,-5.29 0.37,-0.27 0.43,-0.85 0.44,-3.14 1.1,-1.25 0.56,-1.89 0.65,-1.02 0,0 1.62,-3.69 1.13,-4.45 1.15,-1.58 1.19,-1.1 1.21,-1.68 1.03,-1.92 1.37,-0.92 1.05,-0.16 0.73,-0.85 0.94,-1.54 0.18,-0.99 1.7,-3.24 1.09,-0.8 1.76,-5.15 0.66,-4.04 -0.15,-0.3 -0.74,-0.32 -1.67,-1.74 -0.6,-0.95 -0.16,-0.88 0.14,-0.57 1.41,-1.69 1.29,-2.1 -0.06,-2.67 -0.43,-2.18 0.19,-0.35 2.47,-1.78 3.41,-1.14 2.5,-1.21 0.24,-0.5 -0.15,-1.51 0.86,-1.27 1.51,-1.34 1.29,-0.15 0.19,-1.34 -0.29,-1.2 0.25,-0.46 1.46,-0.46 0.64,-0.48 0.93,-2.75 -1.02,-1.34 -0.09,-1.4 0.29,-0.28 0.97,-0.08 0.72,-0.37 0.37,-0.66 0.03,-0.64 -1.26,-1.17 -0.87,-0.14 -0.39,-0.31 -1.02,-1.66 -1.29,-0.12 -1.87,0.25 -2.29,-0.81 0,0 0.53,-0.64 2.62,-1.85 1.96,-0.53 0.87,0.05 2.78,1.52 1.4,0.08 0.95,-0.52 1.74,0.29 0.59,0.69 0.08,1.03 0.28,0.32 1.22,0.03 3.4,1.43 0.84,1.03 0.47,3.5 0.64,1.5 -0.21,3.72 0.23,1.08 0.67,1.13 -0.01,0.44 -1.77,6.15 -0.31,2.37 0.28,1 -0.25,1.59 -1.75,2.04 -1.76,0.67 -0.18,0.71 1.94,1.32 0.42,-0.27 1.37,0.24 0.25,0.35 0.11,0.88 -0.62,1.19 0.85,1.44 0.88,-0.07 3,4.16 0.91,0.85 2.28,3.02 2.14,-1.34 4.27,-0.94 1.8,1.22 0.08,1.75 -0.64,3.25 0.39,1.35 -3.39,0.35 -1.34,0.54 -0.57,0.55 -0.68,1.43 -0.73,2.68 0.37,1.3 -2.63,2.55 -0.26,0.7 0.2,0.42 2.08,0.29 0.94,0.69 0.74,1.59 0.06,1.66 0.62,1.04 3.88,1.95 0.09,0.53 -1.64,1.81 0.13,1.65 2.14,1.62 0.99,2.87 1.34,2 0.71,0.18 1.78,-0.21 1,0.3 0.82,0.44 0.61,0.82 1.28,0.66 0,0 2.94,0.21 0,0 -0.69,0.65 -0.22,0.98 -0.56,0.47 -3.82,2.02 -3.21,2.62 -0.19,0.37 1.29,1.8 -0.36,0.39 -1.01,0.27 -0.9,0.61 -1.52,3.49 -1.01,0.72 -0.5,1.16 0.23,0.92 1.86,1.95 3.59,0.67 1.87,0.99 0.05,0.76 -0.56,0.45 -2.04,0.81 -0.43,0.96 0.09,0.5 0.35,0.33 1.03,-0.18 0.92,0.29 0.58,0.51 0.29,0.64 -0.96,0.71 -1.15,0.42 -1.95,1.67 -0.19,0.85 -0.05,2.92 0.35,1.25 0.94,0.66 1.05,0.24 0.41,0.25 0.17,0.42 0.05,1.06 -1.36,2.38 z"
       	/>
       	<text class="uf-label" x="55.3" y="227.0" font-size="9.5">AC</text>
-      	<text class="uf-label" x="583.6" y="230.3" font-size="8.1">AL</text>
+      	<text class="uf-label atendido" x="583.6" y="230.3" font-size="8.1">AL</text>
       	<text class="uf-label atendido" x="344.1" y="59.7" font-size="9.4">AP</text>
       	<text class="uf-label" x="145.2" y="147.3" font-size="15.0">AM</text>
       	<text class="uf-label" x="504.3" y="277.5" font-size="11.9">BA</text>
@@ -729,9 +869,9 @@
       	<text class="uf-label atendido" x="448.3" y="161.4" font-size="10.6">MA</text>
       	<text class="uf-label" x="282.5" y="285.4" font-size="13.2">MT</text>
       	<text class="uf-label" x="299.5" y="404.7" font-size="11.0">MS</text>
-      	<text class="uf-label" x="458.0" y="373.9" font-size="12.1">MG</text>
+      	<text class="uf-label atendido" x="458.0" y="373.9" font-size="12.1">MG</text>
       	<text class="uf-label atendido" x="323.9" y="147.3" font-size="13.9">PA</text>
-      	<text class="uf-label" x="580.6" y="192.8" font-size="8.5">PB</text>
+      	<text class="uf-label atendido" x="580.6" y="192.8" font-size="8.5">PB</text>
       	<text class="uf-label" x="349.6" y="476.7" font-size="10.1">PR</text>
       	<text class="uf-label atendido" x="562.4" y="211.7" font-size="9.0">PE</text>
       	<text class="uf-label atendido" x="484.6" y="197.2" font-size="10.2">PI</text>
@@ -743,8 +883,23 @@
       	<text class="uf-label" x="367.1" y="521.8" font-size="9.2">SC</text>
       	<text class="uf-label" x="394.9" y="436.6" font-size="10.4">SP</text>
       	<text class="uf-label atendido" x="570.8" y="247.1" font-size="7.9">SE</text>
-      	<text class="uf-label" x="401.1" y="240.1" font-size="10.4">TO</text>
-      </svg>
+      	<text class="uf-label atendido" x="401.1" y="240.1" font-size="10.4">TO</text>
+      	<g class="office-marker matriz" data-office="Matriz" data-city="São Luís, MA" transform="translate(437.0,127.9)">
+		<circle class="office-pulse" r="4"/>
+		<circle class="office-dot"/>
+		<text class="office-label" y="-11">Matriz</text>
+	</g>
+	<g class="office-marker filial" data-office="Filial" data-city="Recife, PE" transform="translate(575.3,218.2)">
+		<circle class="office-pulse" r="4"/>
+		<circle class="office-dot"/>
+		<text class="office-label" y="-10">Filial</text>
+	</g>
+	<g class="office-marker filial" data-office="Filial" data-city="Belo Horizonte, MG" transform="translate(442.3,412.5)">
+		<circle class="office-pulse" r="4"/>
+		<circle class="office-dot"/>
+		<text class="office-label" y="-10">Filial</text>
+	</g>
+</svg>
 
       </div>
     </div>
@@ -785,7 +940,7 @@
       </div>
       <div class="gallery-item">
         <img 
-          src="https://github.com/user-attachments/assets/cdfc00ed-f8c3-4aae-910e-b3cf4d84e84c" 
+          src="https://github.com/user-attachments/assets/5a6b72ce-44ff-4518-8e08-7fbdcf7b5ca4" 
           class="g-fill" 
           alt="Estrutura Metálica"
         >
@@ -821,6 +976,22 @@
           alt="Projeto Executivo"
         >
         <div class="g-label">COMPATIBILIZAÇÃO DE PROJETO EXECUTIVO</div>
+      </div>
+      <div class="gallery-item">
+        <img 
+          src="https://images.unsplash.com/photo-1610079732288-72a77bd816c9?fm=jpg&q=80&w=1200&auto=format&fit=crop" 
+          class="g-fill" 
+          alt="Estrutura de Concreto"
+        >
+        <div class="g-label">ESTRUTURA DE CONCRETO</div>
+      </div>
+      <div class="gallery-item">
+        <img 
+          src="https://github.com/user-attachments/assets/e2d2c34a-79ee-4d8a-a95f-eb55416fa3cd" 
+          class="g-fill" 
+          alt="Escritório Corporativo"
+        >
+        <div class="g-label">ESCRITÓRIO CORPORATIVO</div>
       </div>
     </div>
   </div>
@@ -947,6 +1118,13 @@
     if(e.key === 'Escape') closeLightbox();
   });
 
+  // SERVIÇOS - flip no toque (mobile)
+  document.querySelectorAll('.service-card').forEach((card)=>{
+    card.addEventListener('click', ()=>{
+      card.classList.toggle('flipped');
+    });
+  });
+
   // MAPA - tooltip dos estados atendidos
   const mapTooltip = document.getElementById('map-tooltip');
   if(mapTooltip){
@@ -959,6 +1137,19 @@
         mapTooltip.style.opacity = '1';
       });
       estado.addEventListener('mouseleave', ()=>{
+        mapTooltip.style.opacity = '0';
+      });
+    });
+
+    document.querySelectorAll('.office-marker').forEach((marker)=>{
+      const label = `${marker.dataset.office} — ${marker.dataset.city}`;
+      marker.addEventListener('mousemove', (e)=>{
+        mapTooltip.textContent = label;
+        mapTooltip.style.left = `${e.clientX}px`;
+        mapTooltip.style.top = `${e.clientY}px`;
+        mapTooltip.style.opacity = '1';
+      });
+      marker.addEventListener('mouseleave', ()=>{
         mapTooltip.style.opacity = '0';
       });
     });
