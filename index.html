@@ -97,8 +97,7 @@
     background:linear-gradient(90deg, rgba(0,17,37,.94) 0%, rgba(0,17,37,.86) 32%, rgba(0,17,37,.55) 62%, rgba(0,17,37,.32) 100%);
   }
   @media (max-width:780px){
-    .hero-video-wrap video{display:none;}
-    .hero-video-overlay{background:var(--navy);}
+    .hero-video-overlay{background:rgba(0,17,37,.9);}
   }
   @media (prefers-reduced-motion:reduce){
     .hero-video-wrap video{display:none;}
@@ -354,6 +353,8 @@
     .cta-section .wrap{grid-template-columns:1fr;padding:60px 24px;}
     .cta-contact-block{border-left:none;border-top:2px solid #fff;padding-left:0;padding-top:20px;}
     .footer-grid{grid-template-columns:1fr;}
+    .clients-track img{height:38px;margin:0 20px;}
+    .about-visual img{transform:none;}
   }
 </style>
 </head>
@@ -385,6 +386,7 @@
 <section class="hero" id="inicio">
   <div class="hero-video-wrap">
     <video autoplay muted loop playsinline poster="hero-poster.jpg">
+      <source src="hero-video-mobile.mp4" type="video/mp4" media="(max-width: 780px)">
       <source src="hero-video.mp4" type="video/mp4">
     </video>
     <div class="hero-video-overlay"></div>
@@ -958,7 +960,7 @@
           class="g-fill" 
           alt="Projeto Elétrico"
         >
-        <div class="g-label">SUBESTAÇÃO ELÉTRICA</div>
+        <div class="g-label">PROJETO ELÉTRICO</div>
       </div>
       <div class="gallery-item">
         <img 
@@ -1014,22 +1016,6 @@
           alt="Escritório Corporativo"
         >
         <div class="g-label">ESCRITÓRIO CORPORATIVO</div>
-      </div>
-		<div class="gallery-item">
-        <img 
-          src="https://github.com/user-attachments/assets/791ecee5-3899-47c9-bd70-1b87778e256d" 
-          class="g-fill" 
-          alt="Projeto Elétrico Industrial"
-        >
-        <div class="g-label">PROJETO ELÉTRICO INDUSTRIAL</div>
-      </div>
-		<div class="gallery-item">
-        <img 
-          src="https://github.com/user-attachments/assets/3c415775-dff0-49ec-a335-fe653a722c2b" 
-          class="g-fill" 
-          alt="Projeto de PPCI"
-        >
-        <div class="g-label">PROJETO DE COMBATE A INCÊNDIO</div>
       </div>
     </div>
   </div>
