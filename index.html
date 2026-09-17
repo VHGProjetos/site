@@ -82,6 +82,10 @@
   .btn:hover{background:var(--blue);color:#fff;}
   .btn.solid{background:var(--blue);color:#fff;}
   .btn.solid:hover{background:transparent;color:var(--blue);}
+	.hero-ctas:has(.btn:not(.solid):hover) .btn.solid{
+  background:transparent;
+  color:var(--blue);
+}
   .btn.on-light{border-color:var(--navy);color:var(--navy);}
   .btn.on-light:hover{background:var(--navy);color:var(--light);}
 
